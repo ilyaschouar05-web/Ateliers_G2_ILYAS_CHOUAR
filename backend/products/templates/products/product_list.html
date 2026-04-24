@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% block title %} - Nos Produits{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-success">
+    <i class="fas fa-box me-2"></i>Nos Produits
+</h2>
+
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+    {% for product in products %}
+    <div class="col">
+        <div class="card h-100">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" class="card-img-top"
+                     alt="{{ product.name }}" style="height:200px; object-fit:cover;">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center"
+                     style="height:200px;">
+                    <i class="fas fa-image fa-3x text-muted"></i>
+                </div>
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-title">{{ product.name }}</h5>
+                <p class="card-text text-muted small">{{ product.description|truncatechars:80 }}</p>
+                <p class="fw-bold text-success mb-1">{{ product.price }} MAD</p>
+                {% if product.stock > 0 %}
+                    <span class="badge bg-success">En stock ({{ product.stock }})</span>
+                {% else %}
+                    <span class="badge bg-danger">Rupture de stock</span>
+                {% endif %}
+            </div>
+            <div class="card-footer bg-white border-0">
+                <a href="{% url 'product_detail' product.pk %}" class="btn btn-outline-success w-100">
+                    <i class="fas fa-eye me-1"></i>Voir le produit
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12 text-center text-muted py-5">
+        <i class="fas fa-box-open fa-3x mb-3"></i>
+        <p>Aucun produit disponible. Lancez : <code>python manage.py fake_data</code></p>
+    </div>
+    {% endfor %}
+</div>
+
+{% if is_paginated %}
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+            </li>
+        {% endif %}
+        <li class="page-item active">
+            <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+        </li>
+        {% if page_obj.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Suivant</a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% load crispy_forms_tags %}
+{% block title %} - Livraison{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-7">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0"><i class="fas fa-truck me-2"></i>Informations de livraison</h5>
+            </div>
+            <div class="card-body p-4">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-success w-100 mt-3">
+                        <i class="fas fa-check me-2"></i>Confirmer la commande
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <div class="card shadow-sm">
+            <div class="card-header"><h6 class="mb-0">Récapitulatif du panier</h6></div>
+            <div class="card-body">
+                {% for item in cart.items.all %}
+                <div class="d-flex justify-content-between mb-2">
+                    <span>{{ item.product.name }} x{{ item.quantity }}</span>
+                    <strong>{{ item.get_subtotal }} MAD</strong>
+                </div>
+                {% endfor %}
+                <hr>
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>Total :</span>
+                    <span class="text-success">{{ cart.get_total }} MAD</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'base/base.html' %}
+{% block title %} - Accueil{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 text-success fw-bold">
+        <i class="fas fa-utensils me-3"></i>Bienvenue sur SimpliCulinary
+    </h1>
+    <p class="lead text-muted mt-3">Votre plateforme de produits culinaires de qualité.</p>
+    <a href="{% url 'product_list' %}" class="btn btn-success btn-lg mt-3">
+        <i class="fas fa-box me-2"></i>Découvrir nos produits
+    </a>
+</div>
+<div class="row mt-5">
+    <div class="col-md-4 text-center mb-4">
+        <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+        <h4>Produits Frais</h4>
+        <p class="text-muted">Des produits sélectionnés avec soin.</p>
+    </div>
+    <div class="col-md-4 text-center mb-4">
+        <i class="fas fa-truck fa-3x text-success mb-3"></i>
+        <h4>Livraison Rapide</h4>
+        <p class="text-muted">Recevez vos commandes rapidement.</p>
+    </div>
+    <div class="col-md-4 text-center mb-4">
+        <i class="fas fa-shield-alt fa-3x text-success mb-3"></i>
+        <h4>Paiement Sécurisé</h4>
+        <p class="text-muted">Transactions 100% sécurisées.</p>
+    </div>
+</div>
+{% endblock %}

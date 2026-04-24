@@ -1,0 +1,48 @@
+{% extends 'base/base.html' %}
+{% block title %} - {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-5">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}">
+        {% else %}
+            <div class="bg-light rounded d-flex align-items-center justify-content-center"
+                 style="height:350px;">
+                <i class="fas fa-image fa-5x text-muted"></i>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-md-7">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Produits</a></li>
+                <li class="breadcrumb-item active">{{ product.name }}</li>
+            </ol>
+        </nav>
+        <h1 class="text-success">{{ product.name }}</h1>
+        {% if product.category %}
+            <span class="badge bg-secondary mb-2">{{ product.category.name }}</span>
+        {% endif %}
+        <p class="text-muted mt-2">{{ product.description }}</p>
+        <h3 class="text-success fw-bold">{{ product.price }} MAD</h3>
+
+        {% if product.stock > 0 %}
+            <p class="text-success"><i class="fas fa-check-circle me-1"></i>En stock : {{ product.stock }} unités</p>
+            <form method="post" action="{% url 'add_to_cart' product.pk %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="fas fa-shopping-cart me-2"></i>Ajouter au panier
+                </button>
+            </form>
+        {% else %}
+            <p class="text-danger"><i class="fas fa-times-circle me-1"></i>Rupture de stock</p>
+            <button class="btn btn-secondary btn-lg" disabled>Indisponible</button>
+        {% endif %}
+
+        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary ms-2">
+            <i class="fas fa-arrow-left me-1"></i>Retour
+        </a>
+    </div>
+</div>
+{% endblock %}
